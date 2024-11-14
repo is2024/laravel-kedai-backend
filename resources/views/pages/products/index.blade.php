@@ -83,14 +83,17 @@
                                                 <td>{{ $product->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
+                                                        @if (auth()->user()->roles != 'user')
                                                         <a href='{{ route('product.edit', $product->id) }}'
                                                             class="btn btn-sm btn-info btn-icon">
                                                             <i class="fas fa-edit"></i>
                                                             Edit
                                                         </a>
-
+                                                        @endif
+                                                        @if (auth()->user()->roles == 'staf' || auth()->user()->roles == 'admin')
                                                         <form action="{{ route('product.destroy', $product->id) }}"
                                                             method="POST" class="ml-2">
+                                                            @csrf
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />
@@ -98,6 +101,7 @@
                                                                 <i class="fas fa-times"></i> Delete
                                                             </button>
                                                         </form>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>
